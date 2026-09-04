@@ -29,6 +29,7 @@ M0 establishes a trustworthy baseline before Turkey Edition feature development 
 - [x] `docs/M0_CHECKLIST.md`
 - [x] `docs/COMMERCIAL_LICENSE_CLARIFICATION.md`
 - [x] `docs/LOCAL_DEV_ENVIRONMENT.md`
+- [x] `docs/M0_RUNTIME_TEST_RESULTS.md`
 
 ## License / commercial gate
 
@@ -41,8 +42,8 @@ M0 establishes a trustworthy baseline before Turkey Edition feature development 
 - [x] Classify `qloicsexport` as AFL source-header evidence with missing referenced module-root license file
 - [x] Define practical Bursa handling strategy for identified noncritical restrictive modules
 - [x] Create written commercial clarification question set
+- [x] Static-review `wkhotelroom`: presentation/homepage module, not treated as core reservation dependency; runtime disable test remains pending
 - [ ] Complete material/exhaustive license inventory for remaining modules/themes/bundled third-party components
-- [ ] Determine whether `wkhotelroom` is technically essential to the reservation backbone or independently replaceable
 - [ ] Clarify commercial redistribution/derivative/multi-customer rights for `hotelreservationsystem`
 - [ ] Clarify other commercially material conflicting Webkul module rights where they would be bundled
 - [ ] Record paid addon/service licensing model separately
@@ -93,6 +94,7 @@ Progress:
 - [x] Record web server baseline: Apache/WAMP
 - [x] Confirm `ext-mcrypt` is no longer PHP-core but is available as an external extension with PHP 8.3 Windows builds
 - [x] Document pre-install platform checks and mcrypt decision in `docs/LOCAL_DEV_ENVIRONMENT.md`
+- [x] Create evidence template `docs/M0_RUNTIME_TEST_RESULTS.md`
 - [ ] Verify required PHP extensions in the actual clean WAMP environment
 - [ ] Run `composer check-platform-reqs` in the actual clean environment
 - [ ] Determine whether tested QloApps workflows actually invoke mcrypt and whether it is a long-term deployment dependency
@@ -136,6 +138,7 @@ Progress:
 - [ ] Confirm override conventions, precedence and cache behavior
 - [ ] Confirm theme/template customization path in running install
 - [ ] Confirm Guest Registration Card persistence versus generated display data
+- [ ] Confirm `wkhotelroom` can be disabled without affecting core booking/admin room management
 - [ ] Confirm cron/task manager behavior
 - [ ] Confirm API/webservice authentication and permissions
 - [ ] Create `docs/CORE_PATCHES.md` if any unavoidable core change is identified
