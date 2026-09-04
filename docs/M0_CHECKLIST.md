@@ -27,23 +27,37 @@ M0 establishes a trustworthy baseline before Turkey Edition feature development 
 - [x] `docs/ROADMAP.md`
 - [x] `docs/AI_HANDOFF.md`
 - [x] `docs/M0_CHECKLIST.md`
+- [x] `docs/COMMERCIAL_LICENSE_CLARIFICATION.md`
 
 ## License / commercial gate
 
 - [x] Confirm root package declares OSL-3.0
-- [x] Confirm upstream README explicitly says Webkul-authored modules use their module-root `LICENSE.md`
+- [x] Confirm upstream README explicitly says Webkul-authored modules use their module-root license
 - [x] Identify separate restrictive module license at `modules/hotelreservationsystem/LICENSE.md`
-- [x] Identify additional conflicting/restrictive examples (`qlochannelmanagerconnector`, `qlohotelreview`, `qlopaypalcommerce`, `wkhotelroom`, `wkabouthotelblock`)
-- [x] Create first-pass module license inventory
-- [ ] Complete exhaustive license inventory for all modules/themes/bundled third-party components
-- [ ] Clarify conflicting commercial redistribution/derivative rights for `hotelreservationsystem`
-- [ ] Clarify whether other conflicting Webkul module headers or module-root license files control distribution
+- [x] Directly verify restrictive/conflicting license evidence in `qlochannelmanagerconnector`, `qlohotelreview`, `qlopaypalcommerce`, `wkhotelroom`, `wkabouthotelblock`
+- [x] Verify `qlocrontaskmanager` module-root OSL-3.0 evidence
+- [x] Correct `qloduitkupayment`: AFL source header conflicts with bundled restrictive Webkul `LICENSE.txt`
+- [x] Classify `qloicsexport` as AFL source-header evidence with missing referenced module-root license file
+- [x] Define practical Bursa handling strategy for identified noncritical restrictive modules
+- [x] Create written commercial clarification question set
+- [ ] Complete material/exhaustive license inventory for remaining modules/themes/bundled third-party components
+- [ ] Determine whether `wkhotelroom` is technically essential to the reservation backbone or independently replaceable
+- [ ] Clarify commercial redistribution/derivative/multi-customer rights for `hotelreservationsystem`
+- [ ] Clarify other commercially material conflicting Webkul module rights where they would be bundled
 - [ ] Record paid addon/service licensing model separately
 - [ ] Validate intended Bursa Yazılım resale/installation/license model before commercial release
 
 ### Current blocker
 
-The source now contains a material license contradiction: several module PHP headers say OSL-3.0 while their module-root `LICENSE.md` contains a restrictive Webkul Software Licence Agreement. The QloApps README explicitly directs Webkul-authored modules to their root `LICENSE.md`, so this cannot safely be ignored. Until written clarification or an approved replacement strategy exists, commercial release remains BLOCKED while technical M0 work continues.
+The source contains a material license contradiction: several source headers state OSL-3.0 or AFL-3.0 while their module packages contain a restrictive Webkul Software Licence Agreement. The QloApps README points Webkul-authored modules to their module-level licenses, so this cannot safely be ignored.
+
+`hotelreservationsystem` is the principal blocker because it is the reservation/PMS backbone. Until written clarification or an approved replacement/go-no-go strategy exists, commercial release remains **BLOCKED** while technical M0 work continues.
+
+For noncritical modules, the default mitigation is one of:
+
+- customer/provider-specific licensing,
+- exclusion from Bursa commercial artifact while preserving upstream `develop`,
+- independent Bursa reimplementation against legally usable platform extension points.
 
 ## Runtime baseline
 
@@ -127,8 +141,8 @@ M0 may be marked **CLOSED** only when:
 
 1. technical clean-install and core PMS smoke tests pass,
 2. extension points are runtime-validated well enough to begin M1 without blind core edits,
-3. license inventory is materially complete,
-4. the `hotelreservationsystem` commercial-license blocker is resolved or an approved replacement strategy is documented,
+3. material license inventory is complete,
+4. the `hotelreservationsystem` commercial-license blocker is resolved or an approved replacement/go-no-go strategy is documented,
 5. `docs/AI_HANDOFF.md` contains the exact next step for M1.
 
 Until then, status remains **IN PROGRESS**.
