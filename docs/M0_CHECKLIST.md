@@ -28,6 +28,7 @@ M0 establishes a trustworthy baseline before Turkey Edition feature development 
 - [x] `docs/AI_HANDOFF.md`
 - [x] `docs/M0_CHECKLIST.md`
 - [x] `docs/COMMERCIAL_LICENSE_CLARIFICATION.md`
+- [x] `docs/LOCAL_DEV_ENVIRONMENT.md`
 
 ## License / commercial gate
 
@@ -61,6 +62,15 @@ For noncritical modules, the default mitigation is one of:
 
 ## Runtime baseline
 
+Selected Bursa local development baseline:
+
+- Windows 11
+- WAMP / Apache
+- PHP 8.3.x 64-bit Thread Safe
+- MySQL 8.x
+- Composer 2.x
+- `Europe/Istanbul` test timezone
+
 Known from current `develop` README/composer metadata:
 
 - PHP: current README supports PHP 8.1–8.4; composer constraint is `>8.0 <8.5`
@@ -68,7 +78,7 @@ Known from current `develop` README/composer metadata:
 - curl
 - dom
 - gd
-- mcrypt (composer currently declares it; runtime availability must be verified)
+- mcrypt
 - openssl
 - PDO MySQL
 - phar
@@ -76,15 +86,19 @@ Known from current `develop` README/composer metadata:
 - soap
 - zip
 
-Still required:
+Progress:
 
-- [ ] Select/record standard Bursa Yazılım local development PHP version
-- [ ] Select/record supported MySQL/MariaDB baseline
-- [ ] Verify required PHP extensions in a clean environment
-- [ ] Reconcile composer `ext-mcrypt` declaration with supported modern PHP runtime/install behavior
-- [ ] Record web server/rewrite requirements
-- [ ] Record cron requirements
-- [ ] Record mail requirements
+- [x] Select/record standard Bursa Yazılım local development PHP version: PHP 8.3.x
+- [x] Select/record database baseline: MySQL 8.x
+- [x] Record web server baseline: Apache/WAMP
+- [x] Confirm `ext-mcrypt` is no longer PHP-core but is available as an external extension with PHP 8.3 Windows builds
+- [x] Document pre-install platform checks and mcrypt decision in `docs/LOCAL_DEV_ENVIRONMENT.md`
+- [ ] Verify required PHP extensions in the actual clean WAMP environment
+- [ ] Run `composer check-platform-reqs` in the actual clean environment
+- [ ] Determine whether tested QloApps workflows actually invoke mcrypt and whether it is a long-term deployment dependency
+- [ ] Validate Apache rewrite/`.htaccess` behavior in running install
+- [ ] Validate cron behavior and production/shared-hosting method
+- [ ] Validate mail/SMTP behavior
 
 ## Clean-install baseline
 
