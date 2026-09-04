@@ -40,7 +40,7 @@ Therefore module-level `LICENSE`, `LICENSE.md` and `LICENSE.txt` files take mate
 | `qlochannelmanagerconnector` | Channel-manager connector / OTA boundary | Main PHP header says OSL-3.0; module-root `LICENSE.md` contains restrictive Webkul agreement | **CONFLICT / BLOCKER FOR BUNDLING** | Prefer **CUSTOMER-LICENSE / EXTERNAL SERVICE** initially. Do not assume this connector can be bundled for all Bursa customers |
 | `qlohotelreview` | Hotel reviews | Module-root `LICENSE.md` contains restrictive Webkul agreement | **RESTRICTIVE / REVIEW REQUIRED** | **BURSA REIMPLEMENTATION CANDIDATE** if review functionality is required in the commercial product |
 | `qlopaypalcommerce` | PayPal payment integration | Main PHP header says OSL-3.0; module-root `LICENSE.md` contains restrictive Webkul agreement | **CONFLICT / REVIEW REQUIRED** | Not required for Turkey MVP. **EXCLUDE FROM COMMERCIAL ARTIFACT** if unresolved; implement PayTR/iyzico independently instead |
-| `wkhotelroom` | Hotel-room related front-office functionality | Module-root `LICENSE.md` contains restrictive Webkul agreement | **RESTRICTIVE / REVIEW REQUIRED** | Determine dependency on core booking flow. If nonessential, exclude/replace; if essential, include in Webkul written clarification request |
+| `wkhotelroom` | Homepage/front-office room presentation | Module-root `LICENSE.md` contains restrictive Webkul agreement. Module describes itself as `Display Hotel Rooms`, registers presentation/product hooks such as `displayHome`, and its main file is not referenced by the inspected `hotelreservationsystem` main module file | **RESTRICTIVE / NON-CORE PRESENTATION MODULE** | **BURSA REIMPLEMENTATION CANDIDATE**. It is not treated as a reservation/PMS backbone dependency; replace with Bursa theme/module if the homepage room block is needed |
 | `wkabouthotelblock` | Hotel/about presentation block | Module-root `LICENSE.md` contains restrictive Webkul agreement | **RESTRICTIVE / REVIEW REQUIRED** | **BURSA REIMPLEMENTATION CANDIDATE** / product theme responsibility; do not depend on it for commercial branding |
 | `qlocrontaskmanager` | Scheduled/cron task management | Module-root `LICENSE.md` explicitly states OSL-3.0 | **OSL-3.0 observed** | **USE** if runtime tests validate it; retain required notices/obligations |
 | `qloduitkupayment` | Duitku payment integration | Main PHP header explicitly says AFL-3.0 and claims an AFL `LICENSE.md`; package actually contains `LICENSE.txt` whose blob/content is the restrictive Webkul Software Licence Agreement | **LICENSE CONFLICT / REVIEW REQUIRED** | Not relevant to Turkey MVP. Preserve in upstream `develop` but **EXCLUDE FROM COMMERCIAL ARTIFACT** while unresolved |
@@ -58,6 +58,14 @@ Several Webkul-authored modules contain two different licensing signals:
 
 Because QloApps itself directs Webkul modules to their module-level licenses, Bursa Yazılım must not silently choose the more permissive header. Written clarification is required where the commercial product would depend on a conflicted component.
 
+## `wkhotelroom` dependency finding
+
+Static review of `modules/wkhotelroom/wkhotelroom.php` shows that the module is responsible for displaying selected hotel rooms on the homepage/front office. Its primary integration points are presentation/product lifecycle hooks including `displayHome`, `actionProductSave`, `actionProductDelete` and language/cleanup hooks.
+
+The inspected main file of `hotelreservationsystem` describes itself as the booking backbone and exposes hotel/room/booking webservice resources, but contains no reference to `wkhotelroom` or `WkHotelRoom` in the inspected module source.
+
+M0 conclusion: `wkhotelroom` is **not considered a core booking dependency**. Runtime removal/disable testing will still be performed before commercial packaging, but its restrictive license does not create the same strategic go/no-go risk as `hotelreservationsystem`.
+
 ## Commercial architecture consequences
 
 The Turkey Edition should avoid unnecessary dependency on commercially unresolved modules when a clean independent integration can be created.
@@ -69,7 +77,7 @@ Preferred direction:
 - **Turkey payments:** independent Bursa PayTR/iyzico modules against permitted QloApps payment extension points; do not fork `qlopaypalcommerce` or `qloduitkupayment` code.
 - **Reviews:** independent Bursa review module if needed.
 - **SMS/KBS:** Bursa-owned modules.
-- **Branding/about blocks:** Bursa-owned theme/modules rather than dependence on restrictive presentation modules.
+- **Homepage room/about blocks:** Bursa-owned theme/modules instead of restrictive `wkhotelroom` / `wkabouthotelblock`.
 - **Cron:** `qlocrontaskmanager` may remain where its OSL-3.0 status and runtime compatibility are confirmed.
 
 Independent reimplementation means implementing product requirements from our own specification against legally usable platform interfaces. It does not mean copying, translating or lightly modifying code from an unresolved Webkul module.
@@ -86,7 +94,7 @@ A decision to exclude a module from the Bursa commercial artifact does **not** m
 
 - [ ] Enumerate every directory under `modules/` and classify author/license or inheritance rule.
 - [ ] Inspect remaining module-root `LICENSE`, `LICENSE.md`, `LICENSE.txt`, package metadata and material source headers.
-- [ ] Determine whether `wkhotelroom` is technically required by the core reservation flow or replaceable presentation functionality.
+- [x] Determine whether `wkhotelroom` is technically required by the core reservation flow or replaceable presentation functionality (static review: presentation-only; runtime disable test still pending).
 - [ ] Inventory `themes/` licenses and branding assets.
 - [ ] Inventory bundled JS/PHP libraries under `tools/`, vendor-like locations and module dependencies.
 - [ ] Identify assets/fonts/images with separate redistribution terms.
