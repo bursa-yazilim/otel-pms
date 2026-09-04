@@ -21,6 +21,8 @@ M0 establishes a trustworthy baseline before Turkey Edition feature development 
 - [x] `docs/ARCHITECTURE.md`
 - [x] `docs/QLOAPPS_UPSTREAM.md`
 - [x] `docs/LICENSING.md`
+- [x] `docs/MODULE_LICENSE_INVENTORY.md`
+- [x] `docs/EXTENSION_POINTS.md`
 - [x] `docs/TURKEY_REQUIREMENTS.md`
 - [x] `docs/ROADMAP.md`
 - [x] `docs/AI_HANDOFF.md`
@@ -29,26 +31,30 @@ M0 establishes a trustworthy baseline before Turkey Edition feature development 
 ## License / commercial gate
 
 - [x] Confirm root package declares OSL-3.0
-- [x] Identify first separate restrictive module license: `modules/hotelreservationsystem/LICENSE.md`
-- [ ] Inventory licenses for all modules/components shipped in the current repository
-- [ ] Identify additional separate/commercial/proprietary licenses
-- [ ] Clarify commercial redistribution/derivative rights for `hotelreservationsystem`
+- [x] Confirm upstream README explicitly says Webkul-authored modules use their module-root `LICENSE.md`
+- [x] Identify separate restrictive module license at `modules/hotelreservationsystem/LICENSE.md`
+- [x] Identify additional conflicting/restrictive examples (`qlochannelmanagerconnector`, `qlohotelreview`, `qlopaypalcommerce`, `wkhotelroom`, `wkabouthotelblock`)
+- [x] Create first-pass module license inventory
+- [ ] Complete exhaustive license inventory for all modules/themes/bundled third-party components
+- [ ] Clarify conflicting commercial redistribution/derivative rights for `hotelreservationsystem`
+- [ ] Clarify whether other conflicting Webkul module headers or module-root license files control distribution
 - [ ] Record paid addon/service licensing model separately
 - [ ] Validate intended Bursa Yazılım resale/installation/license model before commercial release
 
 ### Current blocker
 
-`modules/hotelreservationsystem/LICENSE.md` contains restrictions that appear incompatible with simply assuming unrestricted resale/redistribution rights. Until this is clarified, commercial release is BLOCKED even though technical M0 work may continue.
+The source now contains a material license contradiction: several module PHP headers say OSL-3.0 while their module-root `LICENSE.md` contains a restrictive Webkul Software Licence Agreement. The QloApps README explicitly directs Webkul-authored modules to their root `LICENSE.md`, so this cannot safely be ignored. Until written clarification or an approved replacement strategy exists, commercial release remains BLOCKED while technical M0 work continues.
 
 ## Runtime baseline
 
-Known from current `develop/composer.json`:
+Known from current `develop` README/composer metadata:
 
-- PHP: `>8.0 <8.5`
+- PHP: current README supports PHP 8.1–8.4; composer constraint is `>8.0 <8.5`
+- MySQL: current README states 5.7–8.4
 - curl
 - dom
 - gd
-- mcrypt
+- mcrypt (composer currently declares it; runtime availability must be verified)
 - openssl
 - PDO MySQL
 - phar
@@ -61,6 +67,7 @@ Still required:
 - [ ] Select/record standard Bursa Yazılım local development PHP version
 - [ ] Select/record supported MySQL/MariaDB baseline
 - [ ] Verify required PHP extensions in a clean environment
+- [ ] Reconcile composer `ext-mcrypt` declaration with supported modern PHP runtime/install behavior
 - [ ] Record web server/rewrite requirements
 - [ ] Record cron requirements
 - [ ] Record mail requirements
@@ -83,19 +90,31 @@ Still required:
 
 ## Architecture validation
 
-- [ ] Confirm module installation/upgrade conventions
-- [ ] Confirm available hooks/events for Turkey Edition features
-- [ ] Confirm override conventions and limitations
-- [ ] Confirm theme/template customization path
-- [ ] Identify likely Turkey guest identity extension points
-- [ ] Identify likely KBS integration extension points
-- [ ] Identify payment provider extension points
-- [ ] Identify SMS notification extension points
+### Source review completed
+
+- [x] Confirm module pattern (`Module` / `PaymentModule`, install, config, controllers, hooks)
+- [x] Identify existing hotel webservice resources
+- [x] Identify likely Turkey guest identity extension area
+- [x] Identify likely KBS integration boundary
+- [x] Identify payment-provider extension pattern from existing payment module
+- [x] Identify SMS notification module strategy
+- [x] Document initial extension map in `docs/EXTENSION_POINTS.md`
+
+### Runtime validation pending
+
+- [ ] Confirm actual hook/event execution for Turkey Edition features
+- [ ] Confirm reliable check-in/check-out lifecycle event or identify need for minimal new hook
+- [ ] Confirm cancellation/refund lifecycle hooks
+- [ ] Confirm override conventions, precedence and cache behavior
+- [ ] Confirm theme/template customization path in running install
+- [ ] Confirm Guest Registration Card persistence versus generated display data
+- [ ] Confirm cron/task manager behavior
+- [ ] Confirm API/webservice authentication and permissions
 - [ ] Create `docs/CORE_PATCHES.md` if any unavoidable core change is identified
 
 ## Security / data baseline
 
-- [ ] Identify where guest identity data is stored
+- [ ] Identify where all guest identity data is persisted
 - [ ] Identify authentication/session model
 - [ ] Identify audit/logging capabilities
 - [ ] Review file upload surfaces relevant to product use
@@ -107,7 +126,7 @@ Still required:
 M0 may be marked **CLOSED** only when:
 
 1. technical clean-install and core PMS smoke tests pass,
-2. extension points are understood well enough to begin M1 without blind core edits,
+2. extension points are runtime-validated well enough to begin M1 without blind core edits,
 3. license inventory is materially complete,
 4. the `hotelreservationsystem` commercial-license blocker is resolved or an approved replacement strategy is documented,
 5. `docs/AI_HANDOFF.md` contains the exact next step for M1.
